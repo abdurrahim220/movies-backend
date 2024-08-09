@@ -1,10 +1,10 @@
 import { Model } from "mongoose";
 
-export type TReview = {
-  email: string;
-  rating: number;
-  comment: string;
-};
+// export type TReview = {
+//   email: string;
+//   rating: number;
+//   comment: string;
+// };
 
 export type TMovie = {
   title: string;
@@ -13,12 +13,13 @@ export type TMovie = {
   genre: string;
   isDeleted?: boolean;
   viewCount: number;
-  slug:string;
-  reviews: [TReview];
+  slug: string;
+  // reviews: [TReview];
+  totalRating: number;
 };
 
 export type TMovieMethod = {
-  createSlug(payload:TMovie): string;
+  createSlug(payload: TMovie): string;
 };
 
 export type TMovieModel = Model<TMovie, Record<string, unknown>, TMovieMethod>;
