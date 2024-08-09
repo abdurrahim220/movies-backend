@@ -18,9 +18,14 @@ const getSingleMovie = async (id: string) => {
   const result = await Movie.findById(id);
   return result;
 };
+const getSingleMovieBySlug = async (slug: string) => {
+  const result = await Movie.findOne({slug:slug});
+  return result;
+};
 
 export const MovieServices = {
   createMovie,
   getMovies,
   getSingleMovie,
+  getSingleMovieBySlug
 };

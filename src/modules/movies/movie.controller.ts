@@ -55,9 +55,29 @@ const getSingleMovie = async (req: Request, res: Response) => {
     });
   }
 };
+const getSingleMovieBySlug = async (req: Request, res: Response) => {
+  try {
+    const {slug} = req.params;
+    const result = await MovieServices.getSingleMovieBySlug(slug);
+
+    res.status(200).json({
+      success: true,
+      message: "Movie data retrieved successfully!",
+      data: result,
+    });
+    
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Could not retrieve movie data!",
+      error: error || "An unexpected error occurred.",
+    });
+  }
+};
 
 export const MovieControllers = {
   createMovie,
   getAllMovies,
   getSingleMovie,
+  getSingleMovieBySlug
 };

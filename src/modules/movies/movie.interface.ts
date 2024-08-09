@@ -19,6 +19,7 @@ export type TMovie = {
 };
 
 export type TMovieMethod = {
+  // eslint-disable-next-line no-unused-vars
   createSlug(payload: TMovie): string;
 };
 
