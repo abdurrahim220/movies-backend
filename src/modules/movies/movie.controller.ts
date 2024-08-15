@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { MovieServices } from "./movie.service";
 
-const createMovie = async (req: Request, res: Response) => {
+const createMovie = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const movieData = req.body;
     const result = await MovieServices.createMovie(movieData);
@@ -11,11 +11,12 @@ const createMovie = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: "Could not create movies!",
-      error: error,
-    });
+    // res.status(400).json({
+    //   success: false,
+    //   message: "Could not create movies!",
+    //   error: error,
+    // });
+    next(error);
   }
 };
 
@@ -38,7 +39,7 @@ const getAllMovies = async (req: Request, res: Response) => {
 
 const getSingleMovie = async (req: Request, res: Response) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
     const result = await MovieServices.getSingleMovie(id);
 
     res.status(200).json({
@@ -46,7 +47,6 @@ const getSingleMovie = async (req: Request, res: Response) => {
       message: "Movie data retrieved successfully!",
       data: result,
     });
-    
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -57,7 +57,7 @@ const getSingleMovie = async (req: Request, res: Response) => {
 };
 const getSingleMovieBySlug = async (req: Request, res: Response) => {
   try {
-    const {slug} = req.params;
+    const { slug } = req.params;
     const result = await MovieServices.getSingleMovieBySlug(slug);
 
     res.status(200).json({
@@ -65,7 +65,6 @@ const getSingleMovieBySlug = async (req: Request, res: Response) => {
       message: "Movie data retrieved successfully!",
       data: result,
     });
-    
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -79,5 +78,5 @@ export const MovieControllers = {
   createMovie,
   getAllMovies,
   getSingleMovie,
-  getSingleMovieBySlug
+  getSingleMovieBySlug,
 };
