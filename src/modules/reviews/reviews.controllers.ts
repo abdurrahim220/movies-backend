@@ -1,24 +1,21 @@
-import { Request, Response } from "express";
+/* eslint-disable no-unused-vars */
+import { Request, Response ,NextFunction} from "express";
 import { ReviewServices } from "./reviews.services";
+import { catchAsync } from "../utils/catchAsync";
 
-const addReview = async (req: Request, res: Response) => {
-  try {
-    const { slug } = req.params;
-    const reviewData = req.body;
-    const result = await ReviewServices.addReview(slug, reviewData);
-    res.status(201).json({
-      success: true,
-      message: "Review is created successfully!!",
-      data: result,
-    });
-  } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: "Could not add Reviews!",
-      error: error,
-    });
-  }
-};
+
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const addReview = catchAsync(async(req: Request, res: Response,next:NextFunction)=>{
+  const { slug } = req.params;
+  const reviewData = req.body;
+  const result = await ReviewServices.addReview(slug, reviewData);
+  res.status(201).json({
+    success: true,
+    message: "Review is created successfully!!",
+    data: result,
+  });
+})
 
 // const getAllReviews = async (req: Request, res: Response) => {
 //   try {
