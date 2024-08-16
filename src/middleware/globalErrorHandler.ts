@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { ErrorRequestHandler } from "express";
-import { handleValidationError } from "../errors/handleValidationError";
 import { TErrorsources } from "../interface/error.interface";
-import { handleCastError } from "../errors/handleCastError";
+
 
 export const globalErrorHandler: ErrorRequestHandler = async (
   err,
@@ -12,26 +10,19 @@ export const globalErrorHandler: ErrorRequestHandler = async (
   // eslint-disable-next-line no-unused-vars
   next
 ) => {
-  let statusCode = 500;
-  let message = "Internal Server Error";
-  let errorSource : TErrorsources= [
+  const statusCode = 350;
+  const message = "Internal Server Error";
+  const errorSource: TErrorsources = [
     {
       path: "",
       message: "Something went wrong!",
     },
   ];
-  if (err.name==="ValidatorError") {
-    const simplified = handleValidationError(err);
-    errorSource=simplified.errorsSource;
-    console.log(errorSource)
-  }
-  else if(err.name === "CastError"){
-    const simplified = handleCastError(err)
-    errorSource=simplified.errorSource;
-  }
-  res.status(500).json({
+  return res.status(statusCode).json({
     success: false,
-    message:err.name,
+    message,
     errorSource,
+    err,
+    // stack: config.NODE_ENV === "development" ? err?.stack : null,
   });
 };
