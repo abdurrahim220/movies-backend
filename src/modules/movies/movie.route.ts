@@ -2,9 +2,16 @@ import express from "express";
 
 import { MovieControllers } from "./movie.controller";
 import { ReviewControllers } from "../reviews/reviews.controllers";
+
+import { zodMovieSchema } from "./zodMovieSchema";
+import { validateZodRequest } from "../../middleware/validateZodRquest";
 const router = express.Router();
 
-router.post("/", MovieControllers.createMovie);
+router.post(
+  "/",
+  validateZodRequest(zodMovieSchema),
+  MovieControllers.createMovie
+);
 router.get("/", MovieControllers.getAllMovies);
 router.get("/:id", MovieControllers.getSingleMovie);
 router.get("/slug/:slug", MovieControllers.getSingleMovieBySlug);

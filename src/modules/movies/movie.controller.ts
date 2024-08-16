@@ -1,28 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import { MovieServices } from "./movie.service";
-import { z } from "zod";
+// import { zodMovieSchema } from "./zodMovieSchema";
 
-const zodMovieSchema = z.object({
-  title: z.string({
-    required_error: "Title is required",
-  }),
-  description: z.string({
-    required_error: "Description is required",
-  }),
-  releaseDate: z.string().date(),
-  genre: z.string({
-    required_error: "Genre is required",
-  }),
-  isDeleted: z.boolean().default(false),
-  slug: z.string().optional(),
-  viewCount: z.number().default(0),
-  totalRating: z.number().default(0),
-});
 
 const createMovie = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const movieData = req.body;
-    zodMovieSchema.parse(movieData);
+    // zodMovieSchema.parse(movieData);
 
     const result = await MovieServices.createMovie(movieData);
     res.status(201).json({

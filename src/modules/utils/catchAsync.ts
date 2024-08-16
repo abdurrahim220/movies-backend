@@ -1,19 +1,12 @@
-
 import { NextFunction, Request, RequestHandler, Response } from "express";
 
-
-export const catchAsync =  (fn: RequestHandler) => {
+export const catchAsync = (fn: RequestHandler) => {
   return (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next)).catch((error) => {
-      res.status(500).json({
-        success: false,
-        message: "Internal Server Error",
-        data: error,
-      });
+      next(error);
     });
   };
 };
-
 
 // export const catchAsync = (fn: RequestHandler) => {
 //   return (req: Request, res: Response, next: NextFunction) => {
